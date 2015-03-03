@@ -1,4 +1,3 @@
-<h1>HEREHEREHEREHEREHEREHEREHEREHEREHERE</h1>
 <script>
 $j(function() {
   $j("img.img-responsive").lazyload({ 

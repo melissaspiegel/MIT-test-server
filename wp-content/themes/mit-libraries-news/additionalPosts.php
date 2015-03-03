@@ -1,4 +1,3 @@
-<h1>HEREHEREHEREHEREHEREHEREHEREHEREHERE</h1>
 <script>
 $j(function() {
   $j("img.img-responsive").lazyload({ 
@@ -81,17 +80,29 @@ while ( $the_query->have_posts() ) : $the_query->the_post();
         <div class="category-post <?php  if(get_post_type( get_the_ID() ) == 'bibliotech'){ echo "Bibliotech";} ?>">
 <?php 
   if(get_post_type( get_the_ID() ) == 'bibliotech'){
-	   echo "<div class='bilbioImg'><img src='wp-content/themes/mit-libraries-news/images/bilbioTechIcon.png' alt='bilbiotech icon' width='30' height='32' /></div>";
-	   echo "<div class='biblioPadding'>&nbsp;<a href='/news/bibliotech/' title='Bibliotech'>Bibliotech</a></div>";
-	 	  }else{
+	   echo "<div class='bilbioImg bilbioTechIcon'>
+	   </div>";
+	   echo "<div class='biblioPadding'>&nbsp;<a href='/news/bibliotech/' title='Bibliotech'>Bibliotech</a>"; ?>
+	   
+	    <span class="mitDate">
+          <time class="updated"  datetime="<?php echo get_the_date(); ?>">&nbsp;&nbsp;<?php echo get_the_date(); ?></time>
+          </span> </div> 
+	   
+	   
+	   
+	   </div>
+	<?php 	  }else{
 				$category = get_the_category();     
 				$rCat = count($category);
 				$r = rand(0, $rCat -1);
-				echo '<a title="'.$category[$r]->cat_name.'"  title="'.$category[$r]->cat_name.'" href="'.get_category_link($category[$r]->term_id ).'">'.$category[$r]->cat_name.'</a>';
-	  } ?>
+				echo '<a title="'.$category[$r]->cat_name.'"  title="'.$category[$r]->cat_name.'" href="'.get_category_link($category[$r]->term_id ).'">'.$category[$r]->cat_name.'</a>'; ?>
+	 
           <span class="mitDate">
           <time class="updated"  datetime="<?php echo get_the_date(); ?>">&nbsp;&nbsp;<?php echo get_the_date(); ?></time>
-          </span> </div>
+          </span> </div> 
+          
+          
+        <?php  } ?>
       </div><!--last-->
     </div>
       <?php  if(get_post_type( get_the_ID() ) == 'bibliotech'){ ?>

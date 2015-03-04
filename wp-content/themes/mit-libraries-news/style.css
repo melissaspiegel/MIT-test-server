@@ -11,6 +11,13 @@
 h2 a {
 	color: #111;
 }
+aside .widget {
+background: #ede8e2;
+border-bottom: 2px solid #c6b6a3;
+padding: 20px;}
+.page h2{	margin:0px 0px 10px 0px !important;
+}
+h3{font-weight:400}
 .hrList td.loc {
 	width: 200px;
 }
@@ -77,12 +84,15 @@ ul#menu-subscribe {
 	border-top: 4px solid rgb(224,224,224);
 	padding-top: 20px;
 }
-.single .newsBackGround {
+.single .newsBackGround{
 	background-color: rgb(255, 255, 255);
 	width: 100%;
 	border-top: none;
 	padding-top: 0px;
 }
+.page .newsBackGround{
+	border-top: none;
+	padding-top: 0px;}
 table.hrList tr:nth-child(even) {
 	background: #eceaea;
 }
@@ -193,6 +203,8 @@ h1.single {
 .single .category-post {
 	position: absolute;
 }
+
+#mc_embed_signup form input {color:#111}
 .biblio {
 	background-color: rgb(152, 150, 152);
 	color: white;

@@ -20,31 +20,64 @@ $isRoot = $section->ID == $post->ID;
 
  
 get_header(); ?>
-	<?php get_template_part('inc/sub-header'); ?>
+	<?php get_template_part('inc/sub-headerSingle'); ?>
 
 	<?php while ( have_posts() ) : the_post(); ?>
 		<div class="container">
         <div class="row">
-		<div id="stage" class="inner column3 tertiaryPage" role="main">
-			<div class="col-xs-12 col-xs-B-12 col-sm-12 col-md-12 col-lg-12 bgWhite">
+		<div id="stage" class="inner column3 tertiaryPage  bgWhite clearfix" role="main">
+			
 
 		<div id="breadcrumb" class="inner hidden-phone" role="navigation" aria-label="breadcrumbs">
 			<?php wsf_breadcrumbs(" &raquo; ", ""); ?>
 		</div>
-
+<div class="col-xs-12 col-xs-B-12 col-sm-12 col-md-12 col-lg-9">
 	
 			<div class="title-page">
 				<?php if ($isRoot): ?>
-				<h1><?php echo $section->post_title; ?></h1>
+				<h2><?php echo $section->post_title; ?></h2>
 				<?php else: ?>
-				<h1><a href="<?php echo get_permalink($section->ID) ?>"><?php echo $section->post_title; ?></a></h1>
+				<h2><a href="<?php echo get_permalink($section->ID) ?>"><?php echo $section->post_title; ?></a></h2>
 				<?php endif; ?>
 			</div>
 			
 			<div class="">
-				<?php get_template_part( 'content', 'page' ); ?>
+				<div class="col-1 content-page">
+		<?php if (has_post_thumbnail()): ?>
+		<div class="featuredImage">
+			<?php echo the_post_thumbnail(700, 300); ?>
+		
+		</div>	
+		<?php endif; ?>
+		
+		
+		<div class="entry-content">
+			<?php if (!$isRoot): ?>
+			<h2><?php the_title(); ?></h2>
+			<?php endif; ?>
+			<?php the_content(); ?>
+			
+		</div>
+		
+</div>
 			</div>
             </div>
+ 
+ 
+ <div class="col-xs-2 col-xs-B-2 col-sm-2 col-md-2 col-lg-3">
+<?php if ( ! dynamic_sidebar() ) : ?>
+	
+		<div id="sidebarContent" class="sidebar span3">
+		<div class="sidebarWidgets">
+			<?php dynamic_sidebar( 'subscribe' ); ?>
+		</div>
+	</div>		
+
+<?php endif; ?>	
+
+
+</div>
+
 		</div>
         </div>
         </div>

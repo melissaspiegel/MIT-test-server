@@ -1,3 +1,12 @@
+<script type="text/javascript">
+$(document).ready(function() {
+  $("img.img-responsive").lazyload({ 
+    effect : "fadeIn", 
+    effectspeed: 450 ,
+	failure_limit: 999999
+  }); 
+});	
+</script>
 <?php
     /*
         Template Name: Additional Posts Events
@@ -14,33 +23,53 @@
     }	
 ?>
 <?php
+$date = DateTime::createFromFormat('Ymd', get_field('event_date'));
 $args = array(
-	'offset'  => 11,
-  	 'posts_per_page' => $limit,
-	'post__not_in' => get_option('sticky_posts'),
+	
+	'post_type'              => 'post',
+	'posts_per_page'         =>	$limit,
+	'offset'                 => '20',
+	'ignore_sticky_posts'    => true,
+	
 	'meta_query'             => array(
+	
 		array(
-			'key'       => 'is_event',
-			'value'     =>'1',
-			'orderby'    => 'meta_value_num',
-			'order'      => 'DESC',
-
-
-		),
+	'meta_key'                => 'event_date',
+	'orderby'                => 'meta_value_num',
+	'order'                  => 'DESC',
+		
+),
+		
+		
 	),
 );
+	
+
  $the_query = new WP_Query($args); 
 ?>
+<?php
+//removes button start
+$ajaxLength = $the_query->post_count;
+?>
+<?php if ($ajaxLength < $limit){ ?>
+<script>
+$("#another").hide();
+</script>
+<?php } 
+//removes button end ?>
+
 
 
       <?php if( $the_query->have_posts() ):  ?>
+      
+      
       <?php 
-	  $x = 0;	
+	  $o = -1;	
 	  while ( $the_query->have_posts() )   : $the_query->the_post(); 
-	  $x++;
+	   $o++;
 	  ?>
     
-      <div class="<?php if ($x % 3 == 0){ echo "third "; } ?> col-xs-12  col-xs-B-6 col-sm-4 col-md-4 eventsPage no-padding-left-mobile">
+      <div class="<?php if ($o % 3 == 0){ echo "third "; } ?>  col-xs-12  col-xs-B-6 col-sm-4 col-md-4 eventsPage no-padding-left-mobile">
       <div class="flex-item blueTop eventsBox <?php if (get_field("listImg")) { echo "has-image";} else { echo "no-image"; } ?>" onClick='location.href="<?php if((get_field("external_link") != "") && $post->post_type == 'spotlights'){ the_field("external_link");}else{ echo get_post_permalink();}  ?>"'>
     <?php
 if (get_field("listImg") != "" ) { ?>

@@ -1,15 +1,12 @@
-<h1>HEREHEREHEREHEREHEREHEREHEREHEREHERE</h1>
-<script>
-$j(function() {
-  $j("img.img-responsive").lazyload({ 
+<script type="text/javascript">
+$(document).ready(function() {
+  $("img.img-responsive").lazyload({ 
     effect : "fadeIn", 
     effectspeed: 450 ,
 	failure_limit: 999999
   }); 
 });	
-
 </script>
-
 <?php
 $date = DateTime::createFromFormat('Ymd', get_field('event_date'));
 
@@ -41,17 +38,30 @@ $date = DateTime::createFromFormat('Ymd', get_field('event_date'));
 
 );
 
- $the_query = new WP_Query($args); 
-	
+$the_query = new WP_Query($args); 
+
+
 ?>
+<?php
+//removes button start
+$ajaxLength = $the_query->post_count;
+?>
+<?php if ($ajaxLength < $limit){ ?>
+<script>
+$("#another").hide();
+</script>
+<?php } 
+//removes button end ?>
+
+
+
 <?php if( $the_query->have_posts() ):  ?>
 
 
 <?php 
 $o = -1;	
-
 while ( $the_query->have_posts() ) : $the_query->the_post(); 
- $o++;
+$o++;
 ?>
 
 
@@ -64,10 +74,15 @@ while ( $the_query->have_posts() ) : $the_query->the_post();
         <img data-original="<?php the_field("listImg") ?>" width="100%" height="111" class="img-responsive"  alt="<?php the_title(); ?>"/>
         <?php } ?>
         
-        
-        <h2 class="entry-title title-post  <?php if($post->post_type == 'spotlights'){ echo "spotlights"; } ?>">
+        <?php if($post->post_type == 'spotlights'){ ?>
+			 <h2 class="entry-title title-post spotlights">
+         		 <a href="<?php the_field("external_link"); ?>"><?php the_title();?></a>
+       		 </h2> 
+		<?php }else{ ?>
+        <h2 class="entry-title title-post">
           <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
         </h2>
+        <?php 	} ?>
         
         
     	 <?php get_template_part('inc/events'); ?>
@@ -81,17 +96,29 @@ while ( $the_query->have_posts() ) : $the_query->the_post();
         <div class="category-post <?php  if(get_post_type( get_the_ID() ) == 'bibliotech'){ echo "Bibliotech";} ?>">
 <?php 
   if(get_post_type( get_the_ID() ) == 'bibliotech'){
-	   echo "<div class='bilbioImg'><img src='wp-content/themes/mit-libraries-news/images/bilbioTechIcon.png' alt='bilbiotech icon' width='30' height='32' /></div>";
-	   echo "<div class='biblioPadding'>&nbsp;<a href='/news/bibliotech/' title='Bibliotech'>Bibliotech</a></div>";
-	 	  }else{
+	   echo "<div class='bilbioImg bilbioTechIcon'>
+	   </div>";
+	   echo "<div class='biblioPadding'>&nbsp;<a href='/news/bibliotech/' title='Bibliotech'>Bibliotech</a>"; ?>
+	   
+	    <span class="mitDate">
+          <time class="updated"  datetime="<?php echo get_the_date(); ?>">&nbsp;&nbsp;<?php echo get_the_date(); ?></time>
+          </span> </div> 
+	   
+	   
+	   
+	   </div>
+	<?php 	  }else{
 				$category = get_the_category();     
 				$rCat = count($category);
 				$r = rand(0, $rCat -1);
-				echo '<a title="'.$category[$r]->cat_name.'"  title="'.$category[$r]->cat_name.'" href="'.get_category_link($category[$r]->term_id ).'">'.$category[$r]->cat_name.'</a>';
-	  } ?>
+				echo '<a title="'.$category[$r]->cat_name.'"  title="'.$category[$r]->cat_name.'" href="'.get_category_link($category[$r]->term_id ).'">'.$category[$r]->cat_name.'</a>'; ?>
+	 
           <span class="mitDate">
           <time class="updated"  datetime="<?php echo get_the_date(); ?>">&nbsp;&nbsp;<?php echo get_the_date(); ?></time>
-          </span> </div>
+          </span> </div> 
+          
+          
+        <?php  } ?>
       </div><!--last-->
     </div>
       <?php  if(get_post_type( get_the_ID() ) == 'bibliotech'){ ?>
@@ -101,18 +128,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();
     
 
 <?php
-
- endwhile; 
-
-else : ?>
-
-<script>
-	$j(".moreBtn").html("no more posts to load");
-	
-	
-</script>
-<?php	
+endwhile; 
+else : 
 endif;
-?>
-
-<?php wp_reset_query();  // Restore global post data stomped by the_post(). ?>
+wp_reset_query();  // Restore global post data stomped by the_post(). ?>
